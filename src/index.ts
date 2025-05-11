@@ -2,8 +2,7 @@ import http from "http";
 import dotenv from "dotenv";
 import { processUserEndpoint } from "./utils.ts/process-user-endpoint";
 import { validateUUID } from "./utils.ts/id-validation";
-import { invalidUUID, routeNotFound } from "./utils.ts/errors";
-import { methodNotAllowed } from "./utils.ts/errors";
+import { sendErrorResponse } from "./utils.ts/errors";
 
 dotenv.config();
 
@@ -20,7 +19,7 @@ const server = http.createServer((req, res) => {
     if (method === "GET" || method === "POST") {
       return processUserEndpoint(req, res);
     }
-    return methodNotAllowed(res);
+    return sendErrorResponse(res, 405, "Method not allowed");
   }
 
   if (parts.length === 3 && isBaseUrlValid) {
@@ -28,17 +27,17 @@ const server = http.createServer((req, res) => {
     const isIdValid = validateUUID(id);
 
     if (!isIdValid) {
-      return invalidUUID(res);
+      return sendErrorResponse(res, 400, "Invalid UUID");
     }
 
     if (method === "GET" || method === "PUT" || method === "DELETE") {
       return processUserEndpoint(req, res, id);
     }
 
-    return methodNotAllowed(res);
+    return sendErrorResponse(res, 405, "Method not allowed");
   }
 
-  return routeNotFound(res);
+  return sendErrorResponse(res, 404, "Route not found");
 });
 
 server.listen(PORT, () => {

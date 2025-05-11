@@ -7,10 +7,7 @@ import {
   deleteUser,
 } from "./user-handlers";
 import {
-  methodNotAllowed,
-  missingMethod,
-  internalServerError,
-  invalidUUID,
+  sendErrorResponse,
 } from "./errors";
 import { validateUUID } from "./id-validation";
 export async function processUserEndpoint(
@@ -20,7 +17,7 @@ export async function processUserEndpoint(
 ) {
   try {
     if (id && !validateUUID(id)) {
-      return invalidUUID(res);
+      return sendErrorResponse(res, 400, "Invalid UUID");
     }
 
     switch (req.method) {
@@ -38,6 +35,6 @@ export async function processUserEndpoint(
     }
 
   } catch (err) {
-    internalServerError(res);
+    sendErrorResponse(res, 500, "Internal Server Error");
   }
 }

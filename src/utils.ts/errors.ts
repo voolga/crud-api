@@ -1,36 +1,39 @@
 import { ServerResponse } from "http";
 
-export function methodNotAllowed(res: ServerResponse) {
-  res.writeHead(405, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ message: "Method not allowed" }));
-}
-
-export function routeNotFound(res: ServerResponse) {
-  res.writeHead(404, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ message: "Route not found" }));
-}
-
-export function notFound(res: ServerResponse, message = "User not found") {
-  res.writeHead(404, { "Content-Type": "application/json" });
+export function sendErrorResponse(
+  res: ServerResponse,
+  statusCode: 400 | 404 | 405 | 500,
+  message: string
+) {
+  res.writeHead(statusCode, { "Content-Type": "application/json" });
   res.end(JSON.stringify({ message }));
 }
 
-export function badRequest(res: ServerResponse, message = "Bad request") {
-  res.writeHead(400, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ message }));
-}
+export const methodNotAllowed = (
+  res: ServerResponse,
+  message = "Method not allowed"
+) => sendErrorResponse(res, 405, message);
 
-export function missingMethod(res: ServerResponse, message = "Missing HTTP method") {
-  res.writeHead(400, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ message }));
-}
+export const routeNotFound = (
+  res: ServerResponse,
+  message = "Route not found"
+) => sendErrorResponse(res, 404, message);
 
-export function internalServerError(res: ServerResponse, message = "Internal Server Error") {
-  res.writeHead(500, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ message }));
-}
+export const notFound = (res: ServerResponse, message = "User not found") =>
+  sendErrorResponse(res, 404, message);
 
-export function invalidUUID(res: ServerResponse, message = "Invalid UUID") {
-  res.writeHead(400, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ message }));
-}
+export const badRequest = (res: ServerResponse, message = "Bad request") =>
+  sendErrorResponse(res, 400, message);
+
+export const missingMethod = (
+  res: ServerResponse,
+  message = "Missing HTTP method"
+) => sendErrorResponse(res, 400, message);
+
+export const internalServerError = (
+  res: ServerResponse,
+  message = "Internal Server Error"
+) => sendErrorResponse(res, 500, message);
+
+export const invalidUUID = (res: ServerResponse, message = "Invalid UUID") =>
+  sendErrorResponse(res, 400, message);
