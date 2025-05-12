@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start:dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
-    "start:prod": "node dist/index.js"
+    "copy-data": "cp ./src/data/users.json ./dist/data/users.json",
+    "start:dev": "ts-node-dev --respawn src/index.ts",
+    "start:prod": "tsc && node dist/index.js",
+    "start:multi": "npm run build && npm run copy-data && node dist/cluster.js"
   },
   "keywords": [],
   "author": "voolga",

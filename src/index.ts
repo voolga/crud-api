@@ -1,8 +1,8 @@
 import http from "http";
 import dotenv from "dotenv";
-import { processUserEndpoint } from "./utils.ts/process-user-endpoint";
-import { validateUUID } from "./utils.ts/id-validation";
-import { sendErrorResponse } from "./utils.ts/errors";
+import { processUserEndpoint } from "./process-user-endpoint";
+import { validateUUID } from "./utils/id-validation";
+import { sendErrorResponse } from "./utils/errors";
 
 dotenv.config();
 

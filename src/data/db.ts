@@ -9,7 +9,7 @@ try {
   const fileData = fs.readFileSync(filePath, "utf-8");
   users = JSON.parse(fileData);
 } catch (err) {
-  console.error("Failed to load initial users:", err);
+  console.error("Failed to load initial users, will create an empty DB. Error:", err);
   users = [];
 }
 

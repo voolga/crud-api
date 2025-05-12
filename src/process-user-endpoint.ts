@@ -8,8 +8,8 @@ import {
 } from "./user-handlers";
 import {
   sendErrorResponse,
-} from "./errors";
-import { validateUUID } from "./id-validation";
+} from "./utils/errors";
+import { validateUUID } from "./utils/id-validation";
 export async function processUserEndpoint(
   req: IncomingMessage,
   res: ServerResponse,
@@ -33,7 +33,6 @@ export async function processUserEndpoint(
       case "DELETE":
         return await deleteUser(id!, res);
     }
-
   } catch (err) {
     sendErrorResponse(res, 500, "Internal Server Error");
   }
